@@ -3,12 +3,14 @@ package com.moundtech
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.fasterxml.jackson.databind.SerializationFeature
+import com.moundtech.routes.coinFlip
 import com.moundtech.routes.login
 import com.moundtech.routes.table
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.auth.jwt.*
 import io.ktor.features.*
+import io.ktor.http.*
 import io.ktor.jackson.*
 import io.ktor.routing.*
 import io.ktor.websocket.*
@@ -28,6 +30,7 @@ fun Application.module() {
         jackson {
             enable(SerializationFeature.INDENT_OUTPUT)
         }
+
     }
     install(Authentication) {
         jwt("auth-jwt") {
@@ -51,6 +54,7 @@ fun Application.module() {
     routing {
         table()
         login(audience, issuer, secret)
+        coinFlip()
     }
 }
 

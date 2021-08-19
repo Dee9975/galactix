@@ -11,7 +11,7 @@ import java.util.*
 fun Route.login(audience: String, issuer: String, secret: String) {
 
     post("/login") {
-        val user = call.receive<User>()
+        val user = call.receive<JWTUser>()
         val token = JWT.create()
             .withAudience(audience)
             .withIssuer(issuer)
@@ -22,4 +22,4 @@ fun Route.login(audience: String, issuer: String, secret: String) {
     }
 }
 
-data class User(val username: String, val password: String)
+data class JWTUser(val username: String, val password: String)

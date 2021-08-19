@@ -18,11 +18,12 @@ fun Route.table() {
     authenticate("auth-jwt") {
         webSocket("/table") {
             println("Adding a user to the table")
-            val thisConnection = Connection(this)
-            connections += thisConnection
+
             try {
                 val principal = call.principal<JWTPrincipal>()
                 val username = principal!!.payload.getClaim("username").asString()
+                val thisConnection = Connection(this, "", username = username)
+                connections += thisConnection
                 send("Hi $username! Thank you for connecting to the table, current player count is: ${connections.count()}")
                 for (frame in incoming) {
                     when(frame) {
